@@ -25,7 +25,7 @@ A base de dados utilizada contém **2713 linhas e 7 variáveis** e foi extraída
 ## 🔁 Lógica da variável `value`
 ```text
 value = strip ∨ scan ∨ hist
-
+```
 O valor da glicemia é escolhido com base na disponibilidade dos dados, com a seguinte prioridade:
 1. strip (teste capilar)
 2. scan (escaneamento manual)
