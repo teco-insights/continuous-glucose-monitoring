@@ -5,10 +5,10 @@
 
 ## 📁 Conteúdo do projeto
 
-- 📖 [Dicionário de Dados](./dataset.md)
-- 🧹 [Etapas de Limpeza dos Dados](./data-cleaning.md)
-- 💡 [Principais Insights](./insights.md)
-- 📚 [Referências Técnicas e Clínicas](./references.md)
+- 📖 [Dicionário de Dados](./docs/dataset.md)
+- 🧹 [Etapas de Limpeza dos Dados](./docs/data-cleaning.md)
+- 💡 [Principais Insights](./docs/insights.md)
+- 📚 [Referências Técnicas e Clínicas](./docs/references.md)
 
 ## 🛠️ Ferramentas
 - R
