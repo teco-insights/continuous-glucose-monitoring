@@ -16,6 +16,6 @@
 
 ### 👥 Colaboradores
 Este projeto foi desenvolvido em colaboração entre:
-- **Larissa Kato**
+- **Larissa Ísis da Silva Kato**
 - **Gabriel Costa Lavorenti**
 
