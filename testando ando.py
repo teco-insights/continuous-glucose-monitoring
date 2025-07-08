@@ -88,3 +88,82 @@ print("-" * 50)
 # df_final = df_final.drop(columns=['valor_medicao']).rename(columns={'valor_medicao_interpolado': 'valor_medicao'})
 # print("\nDataFrame com apenas a coluna 'valor_medicao' interpolada:")
 # print(df_final)
+
+
+
+
+
+
+
+
+
+
+
+# Consideramos as últimas 10 medidas anteriores e 10 posteriores registradas no conjunto de dados.
+# Atribuíremos pesos diferentes a cada uma, de acordo com a distância para o nosso dado faltante.
+
+def imp_mp(df, col_time='time', col_val='value', alpha=2, k_vizinhos=20):
+    """
+    Preenche valores ausentes com média ponderada de vizinhos temporais.
+
+    Parâmetros:
+        df: DataFrame com timestamps e valores
+        col_time: nome da coluna de tempo
+        col_val: nome da coluna com os valores a imputar
+        alpha: grau de decaimento dos pesos (ex: 2)
+        k_vizinhos: número de vizinhos (anteriores + posteriores)
+
+    Retorna:
+        DataFrame com coluna imputada
+    """
+    df = df.copy()
+    df = df.sort_values(col_time).reset_index(drop=True) # organiza o dataframe
+    df['is_imputed'] = False # cria a coluna is_imputed e atribui o valor falso a todas as células
+    k_half = k_vizinhos//2
+
+    elem_nan = df[col_val].isna() # retorna os elementos da coluna col_val (value) que estão sem valor
+    inds_nan = df[elem_nan].index # retorna os indíces desses elementos
+
+    for ind in inds_nan:
+        t_faltante = df.loc[ind, col_time] # pega um tempo faltante
+
+        # Vizinhos com valor observado
+        df_obs = df[~df[col_val].isna()].copy() # ~ inverte Trues e Falses, e então selecionamos somente
+                                                # as linhas onde value não é nulo!
+
+        # criamos uma coluna ('delta') com a distância temporal (em horas) entre os timestamps dos dados observados
+        # e os timestamps dos dados faltantes (cada t_faltante). O sinal é importante! (- veio antes, + veio depois)
+        df_obs['delta'] = (df_obs[col_time] - t_faltante).dt.total_seconds() / (60 * 60)
+
+        # Cria uma nova coluna ('delta_abs'), com os módulos dessas distâncias
+        df_obs['delta_abs'] = df_obs['delta'].abs()
+
+        # Pega os k/2 vizinhos anteriores mais próximos no tempo e os k/2 posteriores
+        ant = df_obs[df_obs['delta'] < 0].nlargest(k_half, 'delta')  
+        post = df_obs[df_obs['delta'] > 0].nsmallest(k_half, 'delta')
+
+        # junto os dados anteriores e posteriores em uma única lista
+        df_viz = pd.concat([ant, post]) # dataframe
+
+        if df_viz.empty:
+            continue  # Não há vizinhos disponíveis
+
+        # Cálculo dos pesos
+        pesos = (1 / (1 + df_viz['delta_abs'])**alpha).values # coluna unidimensional (Series)
+        valores = df_viz[col_val].values # extraimos os valores observados dos vizinhos temporais, como um nparray
+                                         # values elimina os indíces que os Series carregam.
+        num = np.sum(pesos * valores)
+        den = np.sum(pesos)
+
+        estimativa = round((num / den), 2)
+
+        df.loc[ind, col_val] = estimativa # colocando a estimativa na celula de col_val correspondente a ind
+        df.loc[ind, 'is_imputed'] = True # coloca o valor True na celula de is_imputed
+
+    return df
+
+df_raw = imp_mp(df_raw)
+df_est = imp_mp(df_tempos)
+
+# Novo dataframe, com os valores medidos e os valores estimados
+df_est
