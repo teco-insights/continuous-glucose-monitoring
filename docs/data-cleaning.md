@@ -13,6 +13,7 @@ A coluna 'time' é **fundamental**. Ela nos acompanha durante todo o projeto, e 
 ❗ **OBS importante**: Ao excluir uma linha, sempre lembre-se de resetar o índices das linhas, pois isto não é feito automaticamente. Por exemplo, tendo-se as linhas 0, 1 e 2 em um dataframe, ao remover a linha 1, ficam as linhas de índices 0 e 2, ao invés de se alterar o índice da linha 2 diretamente para 1. Então, após a remoção, visualmente duas linhas estão disponíveis, 0 e 1, mas o índice da linha 1 ainda é 2, se não tiver sido resetado. Isso induz a muitos erros!! 😓
 
 Neste momento, ficamos só com as variáveis 'value' e 'time', e excluímos qualquer linha com valor nulo em uma ou ambas as colunas, assim como valores absurdos em 'value', que não condizem com informações médicas de glicemia, através da função *elimina_nulos_ruidos()*.
+Aqui, cabe um pequeno esclarecimento: Embora a variável user_id seja obrigatória, como estamos analisando apenas as medições de um único usuário, **neste contexto**, e apenas neste, não faremos uso dela.
 
 ❗❗ Quando nos referimos a valores absurdos em 'value', estamos considerando valores absolutos muito altos ou baixos, ou mesmo valores **muito** diferentes dos valores próximos no tempo, como por exemplo, uma medição de 150 precedida por uma de 80 e seguida por uma de 90, com intervalos de 15 minutos para ambas. Isso é inviável medicamente, e muito provavelmente pode ser fruto de um ruído no aparelho medidor. 💥
 
