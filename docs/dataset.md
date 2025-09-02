@@ -1,9 +1,9 @@
 ## 📊 Base de Dados Utilizada
 
-A base de dados utilizada contém **2713 linhas e 7 variáveis** e foi extraída do [rdrr.io – psi-shiny-cgm](https://rdrr.io/github/personalscience/psi-shiny-cgm/man/sample_libreview_df.html), repositório de documentação de pacotes do R.
+A base de dados utilizada contém **3984 linhas e 7 variáveis** e foi extraída do [rdrr.io – psi-shiny-cgm](https://rdrr.io/github/personalscience/psi-shiny-cgm/man/sample_libreview_df.html), repositório de documentação de pacotes do R.
 
 - **Período de medição:** 01/05/2021 até 02/06/2021  
-- **Intervalo entre medições:** 15 minutos  
+- **Intervalo entre medições:** 15 minutos (na maioria das vezes)  
 - **Valores de glicemia (mg/dL):** variam entre **40 e 223**
 
 ---
